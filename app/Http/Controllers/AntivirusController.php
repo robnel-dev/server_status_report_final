@@ -8,7 +8,8 @@ use Inertia\Inertia;
 
 class AntivirusController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $antiviruses = Antivirus::whereDate('datecrt', today())
             ->where('svrstat', 1)
             ->orderBy('svrip')

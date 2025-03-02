@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PhysicalCheck;
 use Inertia\Inertia;
+
 class PhysicalCheckController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $checks = PhysicalCheck::latest()->get();
         return Inertia::render('PhysicalChecks', ['checks' => $checks]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $request->validate([
             'in_charge' => 'required|string',
             'aircon_status' => 'required|in:Normal,Faulty',
@@ -26,21 +29,21 @@ class PhysicalCheckController extends Controller
 
 
     public function update(Request $request, PhysicalCheck $check)
-{
-    $request->validate([
-        'in_charge' => 'required|string',
-        'aircon_status' => 'required|in:Normal,Faulty',
-        'amber_alert' => 'required|boolean',
-        'remarks' => 'nullable|string'
-    ]);
+    {
+        $request->validate([
+            'in_charge' => 'required|string',
+            'aircon_status' => 'required|in:Normal,Faulty',
+            'amber_alert' => 'required|boolean',
+            'remarks' => 'nullable|string'
+        ]);
 
-    $check->update($request->all());
-    return redirect()->back();
-}
+        $check->update($request->all());
+        return redirect()->back();
+    }
 
-public function destroy(PhysicalCheck $check)
-{
-    $check->delete();
-    return redirect()->back();
-}
+    public function destroy(PhysicalCheck $check)
+    {
+        $check->delete();
+        return redirect()->back();
+    }
 }

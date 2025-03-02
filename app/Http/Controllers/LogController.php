@@ -8,7 +8,8 @@ use Inertia\Inertia;
 
 class LogController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $logs = LogFile::whereDate('datecrt', today())
             ->where('filename', '<>', 'DB.XLSX')
             ->where('svrstat', 1)
@@ -23,7 +24,7 @@ class LogController extends Controller
                     'filesize' => $log->filesize, // Ensure this key matches the template
                     'datecrt' => $log->datecrt, // Ensure this key matches the template
                     'timecrt' => $log->timecrt // Ensure this key matches the template
-                 
+
                 ];
             })
         ]);

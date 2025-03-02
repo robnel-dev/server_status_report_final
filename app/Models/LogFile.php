@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 class LogFile extends Model
 {
     use HasFactory;
@@ -11,7 +12,8 @@ class LogFile extends Model
     protected $fillable = ['svrip', 'filename', 'filesize', 'datecrt', 'timecrt'];
 
     // Replace IP 192.168.1.239 with 192.168.1.20
-    public function getServerIpAttribute() {
+    public function getServerIpAttribute()
+    {
         return $this->svrip === '192.168.1.239' ? '192.168.1.20' : $this->svrip;
     }
 }

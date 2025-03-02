@@ -3,9 +3,13 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{DashboardController, DiskController, 
-                         AntivirusController, LogController,
-                         PhysicalCheckController};
+use App\Http\Controllers\{
+    DashboardController,
+    DiskController,
+    AntivirusController,
+    LogController,
+    PhysicalCheckController
+};
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -44,4 +48,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
