@@ -23,4 +23,24 @@ class PhysicalCheckController extends Controller
         PhysicalCheck::create($request->all());
         return redirect()->back();
     }
+
+
+    public function update(Request $request, PhysicalCheck $check)
+{
+    $request->validate([
+        'in_charge' => 'required|string',
+        'aircon_status' => 'required|in:Normal,Faulty',
+        'amber_alert' => 'required|boolean',
+        'remarks' => 'nullable|string'
+    ]);
+
+    $check->update($request->all());
+    return redirect()->back();
+}
+
+public function destroy(PhysicalCheck $check)
+{
+    $check->delete();
+    return redirect()->back();
+}
 }

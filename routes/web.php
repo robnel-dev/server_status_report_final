@@ -31,8 +31,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/disks', [DiskController::class, 'index'])->name('disks');
     Route::get('/antivirus', [AntivirusController::class, 'index'])->name('antivirus');
     Route::get('/logs', [LogController::class, 'index'])->name('logs');
+    // Physical Checks routes
     Route::get('/physical-checks', [PhysicalCheckController::class, 'index'])->name('physical-checks');
     Route::post('/physical-checks', [PhysicalCheckController::class, 'store']);
+    Route::put('/physical-checks/{check}', [PhysicalCheckController::class, 'update'])->name('physical-checks.update');
+    Route::delete('/physical-checks/{check}', [PhysicalCheckController::class, 'destroy'])->name('physical-checks.destroy');
 });
 
 Route::middleware('auth')->group(function () {
