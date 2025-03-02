@@ -14,6 +14,7 @@
             <thead>
               <tr class="bg-gray-50">
                 <th class="px-6 py-3 text-left">Server IP</th>
+                <th class="px-6 py-3 text-left">Server Name</th>
                 <th class="px-6 py-3 text-left">Drive</th>
                 <th class="px-6 py-3 text-left">Total Size</th>
                 <th class="px-6 py-3 text-left">Free Space</th>
@@ -23,6 +24,7 @@
             <tbody>
               <tr v-for="disk in disks" :key="disk.server_ip">
                 <td class="px-6 py-4">{{ disk.server_ip }}</td>
+                <td class="px-6 py-4">{{ disk.server_name }}</td>
                 <td class="px-6 py-4">{{ disk.drive }}</td>
                 <td class="px-6 py-4">{{ disk.total_size }} {{ disk.uom }}</td>
                 <td class="px-6 py-4">{{ disk.free_space }} {{ disk.uom }}</td>
