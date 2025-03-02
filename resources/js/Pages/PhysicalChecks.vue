@@ -98,6 +98,7 @@
             <thead>
               <tr class="bg-gray-50">
                 <th class="px-6 py-3 text-left">In Charge</th>
+                <th class="px-6 py-3 text-left">Date Recorded</th>
                 <th class="px-6 py-3 text-left">Aircon Status</th>
                 <th class="px-6 py-3 text-left">Amber Alert</th>
                 <th class="px-6 py-3 text-left">Remarks</th>
@@ -107,6 +108,7 @@
             <tbody>
               <tr v-for="check in checks" :key="check.id">
                 <td class="px-6 py-4">{{ check.in_charge }}</td>
+                <td class="px-6 py-4">{{ dayjs(check.created_at).format('DD/MM/YYYY') }}</td>
                 <td class="px-6 py-4">{{ check.aircon_status }}</td>
                 <td class="px-6 py-4">{{ check.amber_alert ? 'Yes' : 'No' }}</td>
                 <td class="px-6 py-4">{{ check.remarks }}</td>
@@ -136,6 +138,7 @@
   </template>
   
   <script setup>
+  import dayjs from "dayjs";
   import { ref } from 'vue';
   import { Head, useForm, router } from '@inertiajs/vue3';
   import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
@@ -143,7 +146,10 @@
   
   const props = defineProps({ checks: Array });
   const showModal = ref(false);
-  
+
+  // Remove the duplicate defineProps call
+  // defineProps(["physicalChecks"]);
+
   const form = useForm({
     in_charge: '',
     aircon_status: 'Normal',

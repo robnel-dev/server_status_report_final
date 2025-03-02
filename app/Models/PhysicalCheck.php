@@ -8,4 +8,7 @@ class PhysicalCheck extends Model
 {
     use HasFactory;
     protected $fillable = ['in_charge', 'aircon_status', 'amber_alert', 'remarks'];
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d', // Ensures Laravel sends a proper date
+    ];
 }
