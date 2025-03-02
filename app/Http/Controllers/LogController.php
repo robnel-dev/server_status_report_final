@@ -20,9 +20,10 @@ class LogController extends Controller
                 return [
                     'server_ip' => $log->server_ip,
                     'filename' => $log->filename,
-                    'size' => $log->filesize,
-                    'date' => $log->datecrt,
-                    'time' => $log->timecrt
+                    'filesize' => $log->filesize, // Ensure this key matches the template
+                    'datecrt' => $log->datecrt, // Ensure this key matches the template
+                    'timecrt' => $log->timecrt // Ensure this key matches the template
+                 
                 ];
             })
         ]);

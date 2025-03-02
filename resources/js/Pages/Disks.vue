@@ -15,8 +15,8 @@
               <tr class="bg-gray-50">
                 <th class="px-6 py-3 text-left">Server IP</th>
                 <th class="px-6 py-3 text-left">Drive</th>
-                <th class="px-6 py-3 text-left">Total Size (GB)</th>
-                <th class="px-6 py-3 text-left">Free Space (GB)</th>
+                <th class="px-6 py-3 text-left">Total Size</th>
+                <th class="px-6 py-3 text-left">Free Space</th>
                 <th class="px-6 py-3 text-left">Status</th>
               </tr>
             </thead>
@@ -24,8 +24,8 @@
               <tr v-for="disk in disks" :key="disk.server_ip">
                 <td class="px-6 py-4">{{ disk.server_ip }}</td>
                 <td class="px-6 py-4">{{ disk.drive }}</td>
-                <td class="px-6 py-4">{{ disk.total_size }}</td>
-                <td class="px-6 py-4">{{ disk.free_space }}</td>
+                <td class="px-6 py-4">{{ disk.total_size }} {{ disk.uom }}</td>
+                <td class="px-6 py-4">{{ disk.free_space }} {{ disk.uom }}</td>
                 <td class="px-6 py-4">
                   <span :class="statusColor(disk.status)" class="px-2 py-1 rounded">
                     {{ disk.status }}
@@ -52,3 +52,5 @@
     return 'bg-green-100 text-green-800';
   };
   </script>
+
+  

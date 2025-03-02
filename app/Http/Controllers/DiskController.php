@@ -15,20 +15,18 @@ class DiskController extends Controller
             ->orderBy('svrip')
             ->get();
 
-        return Inertia::render('Disks', [
-            'disks' => $disks->map(function ($disk) {
-                $percentage = ($disk->free_space / $disk->drvsizetotal) * 100;
-                $status = $percentage <= 20 ? 'Critical 🔴' : ($percentage <= 25 ? 'Warning 🟡' : 'Normal 🟢');
-                
-                return [
-                    'server_ip' => $disk->svrip,
-                    'server_name' => $disk->server_name,
-                    'drive' => $disk->drvletter,
-                    'total_size' => $disk->drvsizetotal,
-                    'free_space' => $disk->free_space,
-                    'status' => $status
-                ];
-            })
-        ]);
+            return Inertia::render('Disks', [
+                'disks' => $disks->map(function ($disk) {
+                    return [
+                        'server_ip' => $disk->svrip,
+                        'server_name' => $disk->server_name,
+                        'drive' => $disk->drvletter,
+                        'total_size' => $disk->drvsizetotal,
+                        'free_space' => $disk->drvsize_free,
+                        'uom' => $disk->uom, // Pass unit to the view
+                        'status' => $disk->status
+                    ];
+                })
+            ]);
     }
 }

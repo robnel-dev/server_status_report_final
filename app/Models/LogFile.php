@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 class LogFile extends Model
 {
+    use HasFactory;
     protected $table = 'svrfiles_db';
     protected $fillable = ['svrip', 'filename', 'filesize', 'datecrt', 'timecrt'];
 
