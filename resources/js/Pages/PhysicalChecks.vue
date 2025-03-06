@@ -13,9 +13,9 @@
         <!-- <NavigationTabs /> -->
 
         <!-- Add New Check Button -->
-        <button @click="showModal = true" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200">
+        <!-- <button @click="showModal = true" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200">
           + New Record
-        </button>
+        </button> -->
 
 
         <!-- Modal Form -->
@@ -63,10 +63,10 @@
             <form @submit.prevent="submitUpdate">
               <div class="space-y-4">
                 <!-- Same fields as Add Modal -->
-                <div>
+                <!-- <div>
                   <label>In Charge</label>
                   <input v-model="editForm.in_charge" type="text" class="w-full p-2 border rounded" required>
-                </div>
+                </div> -->
                 <div>
                   <label>Aircon Status</label>
                   <select v-model="editForm.aircon_status" class="w-full p-2 border rounded" required>
@@ -122,7 +122,7 @@
         <table class="min-w-full bg-white shadow-sm rounded-lg">
           <thead>
             <tr class="bg-gray-50">
-              <th class="px-6 py-3 text-left">In Charge</th>
+              <!-- <th class="px-6 py-3 text-left">In Charge</th> -->
               <th class="px-6 py-3 text-left">Date Recorded</th>
               <th class="px-6 py-3 text-left">Aircon Status</th>
               <th class="px-6 py-3 text-left">Amber Alert</th>
@@ -132,7 +132,7 @@
           </thead>
           <tbody>
             <tr v-for="check in checks" :key="check.id">
-              <td class="px-6 py-4">{{ check.in_charge }}</td>
+              <!-- <td class="px-6 py-4">{{ check.in_charge }}</td> -->
               <td class="px-6 py-4">{{ dayjs(check.created_at).format('DD/MM/YYYY') }}</td>
               <td class="px-6 py-4">{{ check.aircon_status }}</td>
               <td class="px-6 py-4">{{ check.amber_alert ? 'Yes' : 'No' }}</td>
