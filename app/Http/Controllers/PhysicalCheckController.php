@@ -43,7 +43,8 @@ class PhysicalCheckController extends Controller
 
     public function destroy(PhysicalCheck $check)
     {
-        $check->delete();
+        
+        $check->update(['remarks' => '']);
         return redirect()->back();
     }
 }

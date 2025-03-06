@@ -13,7 +13,8 @@ class DiskController extends Controller
         $disks = Storage::whereDate('datecrt', today())
             ->whereNotIn('svrip', ['192.168.1.110', '192.168.44.139'])
             ->where('svrstat', 1)
-            ->orderBy('svrip', 'drvletter')
+            ->orderBy('svrip')
+            ->orderBy('drvletter')
             ->get();
 
         return Inertia::render('Disks', [

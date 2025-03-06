@@ -21,14 +21,14 @@ const showingNavigationDropdown = ref(false);
                         <!-- Logo and Desktop Menu -->
                         <div class="flex">
                             <div class="flex shrink-0 items-center">
-                                <Link :href="route('dashboard')">
-                                    <ApplicationLogo class="block h-9 w-auto fill-current text-gray-800" />
+                                <Link :href="route('disks.index')">
+                                    <img src="/images/GuessLogo.png" alt="Company Logo" class="h-12 w-auto">
                                 </Link>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <!-- <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
-                                </NavLink>
+                                </NavLink> -->
                             </div>
                         </div>
 
