@@ -21,8 +21,8 @@ const showingNavigationDropdown = ref(false);
                         <!-- Logo and Desktop Menu -->
                         <div class="flex">
                             <div class="flex shrink-0 items-center">
-                                <Link :href="route('disks.index')">
-                                    <img src="/images/GuessLogo.png" alt="Company Logo" class="h-12 w-auto">
+                                <Link :href="route('disks')">
+                                    <img src="/images/GuessLogo.png" alt="Company Logo" class="h-12 w-auto rounded-lg shadow-lg">
                                 </Link>
                             </div>
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
