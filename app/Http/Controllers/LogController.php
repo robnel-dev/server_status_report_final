@@ -8,24 +8,27 @@ use Inertia\Inertia;
 
 class LogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $logs = LogFile::whereDate('datecrt', today())
+        // Get dates from request or default to today
+        $startDate = $request->input('start_date', now()->toDateString());
+        $endDate = $request->input('end_date', now()->toDateString());
+
+        $logs = LogFile::whereBetween('datecrt', [$startDate, $endDate])
             ->where('filename', '<>', 'DB.XLSX')
             ->where('svrstat', 1)
             ->orderBy('svrip')
             ->get();
-        
 
         return Inertia::render('Logs', [
             'logs' => $logs->map(function ($log) {
                 return [
-                    'server_ip' => $log->server_ip,
+                    'id' => $log->id,
+                    'server_ip' => $log->server_ip, // Using the accessor
                     'filename' => $log->filename,
-                    'filesize' => $log->filesize, // Ensure this key matches the template
-                    'datecrt' => $log->datecrt, // Ensure this key matches the template
-                    'timecrt' => $log->timecrt // Ensure this key matches the template
-
+                    'filesize' => $log->filesize,
+                    'datecrt' => $log->datecrt,
+                    'timecrt' => $log->timecrt
                 ];
             })
         ]);
