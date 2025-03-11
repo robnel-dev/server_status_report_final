@@ -15,6 +15,7 @@ class LogController extends Controller
             ->where('svrstat', 1)
             ->orderBy('svrip')
             ->get();
+        
 
         return Inertia::render('Logs', [
             'logs' => $logs->map(function ($log) {
