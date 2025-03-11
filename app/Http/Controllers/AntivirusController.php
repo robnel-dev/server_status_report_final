@@ -8,15 +8,27 @@ use Inertia\Inertia;
 
 class AntivirusController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $antiviruses = Antivirus::whereDate('datecrt', today())
+        // Get dates from request or default to today
+        $startDate = $request->input('start_date', now()->toDateString());
+        $endDate = $request->input('end_date', now()->toDateString());
+
+        $antiviruses = Antivirus::whereBetween('datecrt', [$startDate, $endDate])
             ->where('svrstat', 1)
             ->orderBy('svrip')
             ->get();
 
         return Inertia::render('Antivirus', [
-            'antiviruses' => $antiviruses
+            'antiviruses' => $antiviruses->map(function ($av) {
+                return [
+                    'id' => $av->id,
+                    'svrip' => $av->svrip,
+                    'last_update' => $av->last_update,
+                    'datecrt' => $av->datecrt,
+                    'timecrt' => $av->timecrt
+                ];
+            })
         ]);
     }
 }
