@@ -1,4 +1,5 @@
 <template>
+
   <Head title="Antivirus Status" />
   <BreezeAuthenticatedLayout>
     <template #header>
@@ -11,14 +12,8 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- Date Picker -->
         <div class="mb-6">
-          <Datepicker
-            v-model="selectedDates"
-            range
-            :enable-time-picker="false"
-            @update:model-value="handleDateChange"
-            placeholder="Select date range"
-            class="w-full max-w-md"
-          />
+          <Datepicker v-model="selectedDates" range :enable-time-picker="false" @update:model-value="handleDateChange"
+            placeholder="Select date range" class="w-full max-w-xs" />
         </div>
 
         <!-- Table -->
@@ -60,16 +55,16 @@ const selectedDates = ref([new Date(), new Date()]);
 
 const handleDateChange = (dates) => {
   if (!dates || dates.length !== 2) return;
-  
+
   const formatDate = (date) => date.toLocaleDateString('en-CA');
   const [start, end] = dates.map(formatDate);
-  
-  router.get('/antivirus', { 
+
+  router.get('/antivirus', {
     start_date: start,
-    end_date: end 
-  }, { 
-    preserveState: true, 
-    replace: true 
+    end_date: end
+  }, {
+    preserveState: true,
+    replace: true
   });
 };
 
@@ -78,7 +73,7 @@ onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
   const startParam = urlParams.get('start_date');
   const endParam = urlParams.get('end_date');
-  
+
   if (startParam && endParam) {
     selectedDates.value = [new Date(startParam), new Date(endParam)];
   }

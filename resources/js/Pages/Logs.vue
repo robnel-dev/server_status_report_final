@@ -13,7 +13,7 @@
         <!-- Date Picker -->
         <div class="mb-6">
           <Datepicker v-model="selectedDates" range :enable-time-picker="false" @update:model-value="handleDateChange"
-            placeholder="Select date range" class="w-full max-w-md" />
+            placeholder="Select date range" class="w-full max-w-xs" />
         </div>
 
         <!-- Table -->
@@ -59,7 +59,7 @@ const handleDateChange = (dates) => {
   if (!dates || dates.length !== 2) return;
 
   const formatDate = (date) => date.toLocaleDateString('en-CA');
-  const [start, end] = dates.map(formatDate);   
+  const [start, end] = dates.map(formatDate);
 
   router.get('/logs', {
     start_date: start,

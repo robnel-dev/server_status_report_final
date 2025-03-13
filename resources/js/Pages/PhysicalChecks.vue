@@ -12,7 +12,7 @@
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="mb-6 flex justify-between items-center">
           <Datepicker v-model="selectedDates" range :enable-time-picker="false" @update:model-value="handleDateChange"
-            placeholder="Select date range" class="w-full max-w-md" />
+            placeholder="Select date range" class="w-full max-w-xs" />
         </div>
         <!-- <NavigationTabs /> -->
 
