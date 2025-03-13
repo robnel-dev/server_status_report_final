@@ -1,17 +1,17 @@
 <template>
 
-  <Head title="Disk Size" />
+  <Head title="Disk Usage" />
   <BreezeAuthenticatedLayout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Disk Size Information
+        Disk Status Information
       </h2>
     </template>
 
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- Filters Section -->
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-6">
           <!-- Search Input (Left) -->
           <input v-model="searchQuery" @input="handleSearch" type="text" placeholder="Search..."
             class="w-full max-w-sm p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />

@@ -13,7 +13,7 @@
         <!-- Date Picker -->
         <div class="mb-6">
           <Datepicker v-model="selectedDates" range :enable-time-picker="false" @update:model-value="handleDateChange"
-            placeholder="Select date range" class="w-full max-w-xs" />
+            placeholder="Select date range" class="w-full max-w-xs ml-auto" />
         </div>
 
         <!-- Table -->

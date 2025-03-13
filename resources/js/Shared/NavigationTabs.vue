@@ -17,7 +17,7 @@
   import { Link } from '@inertiajs/vue3';
   
   const links = [
-    { name: 'Disk Size', route: 'disks' },
+    { name: 'Disk Usage', route: 'disks' },
     { name: 'Antivirus', route: 'antivirus' },
     { name: 'Logs', route: 'logs' },
     { name: 'Physical Check', route: 'physical-checks' }
