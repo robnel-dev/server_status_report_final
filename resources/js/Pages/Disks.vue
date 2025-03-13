@@ -1,4 +1,5 @@
 <template>
+
   <Head title="Disk Size" />
   <BreezeAuthenticatedLayout>
     <template #header>
@@ -9,17 +10,17 @@
 
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <!-- Date Picker -->
-        <div class="mb-6">
-          <Datepicker
-            v-model="selectedDates"
-            range
-            :enable-time-picker="false"
-            @update:model-value="handleDateChange"
-            placeholder="Select date range"
-            class="w-full max-w-md"
-          />
+        <!-- Filters Section -->
+        <div class="flex items-center justify-between mb-4">
+          <!-- Search Input (Left) -->
+          <input v-model="searchQuery" @input="handleSearch" type="text" placeholder="Search..."
+            class="w-full max-w-sm p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+
+          <!-- Date Picker (Right) -->
+          <Datepicker v-model="selectedDates" range :enable-time-picker="false" @update:model-value="handleDateChange"
+            placeholder="Select date range" class="w-full max-w-xs ml-auto" />
         </div>
+
 
         <!-- Table -->
         <table class="min-w-full bg-white shadow-sm rounded-lg">
@@ -59,38 +60,50 @@
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
+import debounce from 'lodash.debounce';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
 
 const props = defineProps({ disks: Array });
 
-// Date Handling
+// Search Handling
+const searchQuery = ref('');
 const selectedDates = ref([new Date(), new Date()]);
 
-const handleDateChange = (dates) => {
-  if (!dates || dates.length !== 2) return;
-  
-  const formatDate = (date) => date.toLocaleDateString('en-CA');
-  const [start, end] = dates.map(formatDate);
-  
-  router.get('/disks', { 
-    start_date: start,
-    end_date: end 
-  }, { 
-    preserveState: true, 
-    replace: true 
-  });
-};
+// Unified debounced handler
+const updateResults = debounce(() => {
+  const [start, end] = selectedDates.value.map(date =>
+    date.toISOString().split('T')[0]
+  );
 
-// Initialize dates from URL params
+  router.get('/disks', {
+    search: searchQuery.value,
+    start_date: start,
+    end_date: end
+  }, {
+    preserveState: true,
+    replace: true
+  });
+}, 300);
+
+// Event handlers
+const handleSearch = () => updateResults();
+const handleDateChange = () => updateResults();
+
+// Initialization
 onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
+  searchQuery.value = urlParams.get('search') || '';
+
   const startParam = urlParams.get('start_date');
   const endParam = urlParams.get('end_date');
-  
+
   if (startParam && endParam) {
-    selectedDates.value = [new Date(startParam), new Date(endParam)];
+    selectedDates.value = [
+      new Date(startParam),
+      new Date(endParam)
+    ];
   }
 });
 
@@ -100,4 +113,6 @@ const statusColor = (status) => {
   if (status.includes('🟡')) return 'bg-yellow-100 text-yellow-800';
   return 'bg-green-100 text-green-800';
 };
+
+
 </script>
