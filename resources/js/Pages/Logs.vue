@@ -17,9 +17,10 @@
         </div>
 
         <!-- Table -->
-        <table class="min-w-full bg-white shadow-sm rounded-lg">
-          <thead>
-            <tr class="bg-gray-50">
+        <div class="overflow-x-auto shadow-lg rounded-lg">
+        <table class="min-w-full bg-white rounded-lg">
+          <thead class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white">
+            <tr>
               <th class="px-6 py-3 text-left">Date</th>
               <th class="px-6 py-3 text-left">Server IP</th>
               <th class="px-6 py-3 text-left">Filename</th>
@@ -29,7 +30,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="log in logs" :key="log.id">
+            <tr v-for="log in logs" :key="log.id" class="border-t hover:bg-blue-50 transition">
               <td class="px-6 py-4">{{ formatDate(log.datecrt) }}</td>
               <td class="px-6 py-4">{{ log.server_ip }}</td>
               <td class="px-6 py-4">{{ log.filename }}</td>
@@ -38,6 +39,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </BreezeAuthenticatedLayout>

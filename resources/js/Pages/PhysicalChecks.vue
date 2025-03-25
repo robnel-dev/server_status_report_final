@@ -123,9 +123,10 @@
         </div>
 
         <!-- Checks Table -->
-        <table class="min-w-full bg-white shadow-sm rounded-lg">
-          <thead>
-            <tr class="bg-gray-50">
+        <div class="overflow-x-auto shadow-lg rounded-lg">
+        <table class="min-w-full bg-white rounded-lg">
+          <thead class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white">
+            <tr>
               <!-- <th class="px-6 py-3 text-left">In Charge</th> -->
               <th class="px-6 py-3 text-left">Date Recorded</th>
               <th class="px-6 py-3 text-left">Aircon Status</th>
@@ -135,7 +136,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="check in checks" :key="check.id">
+            <tr v-for="check in checks" :key="check.id" class="border-t hover:bg-blue-50 transition">
               <!-- <td class="px-6 py-4">{{ check.in_charge }}</td> -->
               <td class="px-6 py-4">{{ formatDate(check.created_at) }}</td>
               <td class="px-6 py-4">{{ check.aircon_status }}</td>
@@ -176,6 +177,7 @@
             </tr>
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   </BreezeAuthenticatedLayout>

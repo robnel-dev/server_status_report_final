@@ -6,7 +6,7 @@
         :key="link.name"
         :href="route(link.route)"
         class="px-4 py-2 text-sm font-medium rounded-md transition-colors"
-        :class="route().current(link.route) ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-gray-100'"
+        :class="route().current(link.route) ? 'bg-blue-500 text-white' : 'text-gray-700 hover:bg-blue-100'"
       >
         {{ link.name }}
       </Link>

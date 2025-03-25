@@ -17,9 +17,10 @@
         </div>
 
         <!-- Table -->
-        <table class="min-w-full bg-white shadow-sm rounded-lg">
-          <thead>
-            <tr class="bg-gray-50">
+        <div class="overflow-x-auto shadow-lg rounded-lg">
+        <table class="min-w-full bg-white rounded-lg">
+          <thead class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white">
+            <tr>
               <th class="px-6 py-3 text-left">Date Recorded</th>
               <th class="px-6 py-3 text-left">Server IP</th>
               <th class="px-6 py-3 text-left">Last Update</th>
@@ -27,7 +28,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="antivirus in antiviruses" :key="antivirus.id">
+            <tr v-for="antivirus in antiviruses" :key="antivirus.id " class="border-t hover:bg-blue-50 transition">
               <td class="px-6 py-4">{{ formatDate(antivirus.datecrt) }}</td>
               <td class="px-6 py-4">{{ antivirus.svrip }}</td>
               <td class="px-6 py-4">{{ antivirus.last_update }}</td>
@@ -35,6 +36,7 @@
             </tr>
           </tbody>
         </table>
+       </div>
       </div>
     </div>
   </BreezeAuthenticatedLayout>
