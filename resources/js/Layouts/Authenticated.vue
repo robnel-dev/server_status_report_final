@@ -18,7 +18,7 @@ const mobileMenuClass = computed(() => ({
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-100">
+    <div class="min-h-screen flex flex-col bg-gradient-to-br from-gray-200 via-blue-300 to-indigo-500 text-gray-900">
         <!-- Navigation -->
         <nav class="border-b border-gray-100 bg-white shadow-md">
             <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -28,9 +28,8 @@ const mobileMenuClass = computed(() => ({
                         <Link :href="route('disks')">
                         <img src="/images/GuessLogo.png" alt="Company Logo" class="h-12 w-auto rounded-lg shadow-lg">
                         </Link>
-                        <h1 class="text-sm sm:text-base md:text-lg font-semibold tracking-wide uppercase 
-                                    text-white bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-600 
-                                    py-1 px-4 rounded-md shadow-md animate-gradient">
+                        <h1
+                            class="text-sm sm:text-base md:text-lg font-semibold tracking-wide uppercase text-white bg-gradient-to-r from-blue-500 via-purple-500 to-indigo-600 py-1 px-4 rounded-md shadow-md animate-gradient">
                             Server Status Report
                         </h1>
                     </div>
@@ -40,8 +39,7 @@ const mobileMenuClass = computed(() => ({
                         <Dropdown align="right" width="48">
                             <template #trigger>
                                 <button
-                                    class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-500 
-                                               hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
+                                    class="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-500 hover:text-gray-700 focus:outline-none transition duration-150 ease-in-out">
                                     {{ $page.props.auth.user.name }}
                                     <svg class="ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
                                         <path fill-rule="evenodd"
@@ -56,40 +54,6 @@ const mobileMenuClass = computed(() => ({
                             </template>
                         </Dropdown>
                     </div>
-
-                    <!-- Mobile Menu Button -->
-                    <button @click="showingNavigationDropdown = !showingNavigationDropdown"
-                        class="sm:hidden p-2 rounded-md text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none">
-                        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                            <path
-                                :class="{ hidden: showingNavigationDropdown, 'inline-flex': !showingNavigationDropdown }"
-                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                            <path
-                                :class="{ hidden: !showingNavigationDropdown, 'inline-flex': showingNavigationDropdown }"
-                                stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Menu -->
-            <div :class="mobileMenuClass" class="sm:hidden">
-                <div class="space-y-1 pb-3 pt-2">
-                    <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                        Dashboard
-                    </ResponsiveNavLink>
-                </div>
-                <div class="border-t border-gray-200 pb-1 pt-4">
-                    <div class="px-4">
-                        <div class="text-base font-medium text-gray-800">{{ $page.props.auth.user.name }}</div>
-                        <div class="text-sm font-medium text-gray-500">{{ $page.props.auth.user.email }}</div>
-                    </div>
-                    <div class="mt-3 space-y-1">
-                        <ResponsiveNavLink :href="route('profile.edit')">Profile</ResponsiveNavLink>
-                        <ResponsiveNavLink :href="route('logout')" method="post" as="button">Log Out</ResponsiveNavLink>
-                    </div>
                 </div>
             </div>
         </nav>
@@ -103,23 +67,20 @@ const mobileMenuClass = computed(() => ({
         </header>
 
         <!-- Main Content -->
-        <main class="bg-gradient-to-b from-gray-100 to-blue-200 text-gray-900">
+        <main class="flex-grow bg-gradient-to-b from-gray-100 to-blue-200 text-gray-900 p-6">
             <slot />
         </main>
 
-
-
-
-
-
-
-
-
         <!-- Footer -->
-        <footer class="mt-5 py-4 text-center bg-gray-100 text-gray-700 text-sm">
-            &copy; 2025 Server Status Report | Developed by <span class="font-semibold">ROBLEDO, John Ronnel Z. -
-                OJT</span>
+        <footer
+            class="mt-auto bg-gradient-to-r from-blue-600 to-indigo-700 text-gray-200 py-6 text-center text-sm shadow-md">
+            <div class="container mx-auto px-4">
+                <p>&copy; 2025 Server Status Report | Developed by
+                    <span class="font-semibold text-white">ROBLEDO, John Ronnel Z. - OJT</span>
+                </p>
+            </div>
         </footer>
+
     </div>
 </template>
 

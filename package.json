@@ -20,7 +20,7 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
-        "@vuepic/vue-datepicker": "^11.0.1",
+        "@vuepic/vue-datepicker": "^11.0.2",
         "dayjs": "^1.11.13",
         "lodash.debounce": "^4.0.8"
     }

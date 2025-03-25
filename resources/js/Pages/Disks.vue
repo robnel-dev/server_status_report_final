@@ -14,7 +14,7 @@
         <div class="flex items-center justify-between mb-6">
           <!-- Search Input (Left) -->
           <input v-model="searchQuery" @input="handleSearch" type="text" placeholder="Search..."
-            class="w-full max-w-sm p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            class="w-full sm:w-80 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition" />
 
           <!-- Date Picker (Right) -->
           <Datepicker v-model="selectedDates" range :enable-time-picker="false" @update:model-value="handleDateChange"
@@ -23,34 +23,37 @@
 
 
         <!-- Table -->
-        <table class="min-w-full bg-white shadow-sm rounded-lg">
-          <thead>
-            <tr class="bg-gray-50">
-              <th class="px-6 py-3 text-left">Date</th>
-              <th class="px-6 py-3 text-left">Server IP</th>
-              <th class="px-6 py-3 text-left">Server Name</th>
-              <th class="px-6 py-3 text-left">Drive</th>
-              <th class="px-6 py-3 text-left">Total Size</th>
-              <th class="px-6 py-3 text-left">Free Space</th>
-              <th class="px-6 py-3 text-left">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="disk in disks" :key="disk.server_ip">
-              <td class="px-6 py-4">{{ disk.date }}</td>
-              <td class="px-6 py-4">{{ disk.server_ip }}</td>
-              <td class="px-6 py-4">{{ disk.server_name }}</td>
-              <td class="px-6 py-4">{{ disk.drive }}</td>
-              <td class="px-6 py-4">{{ disk.total_size }} {{ disk.uom }}</td>
-              <td class="px-6 py-4">{{ disk.free_space }} {{ disk.uom }}</td>
-              <td class="px-6 py-4">
-                <span :class="statusColor(disk.status)" class="px-2 py-1 rounded">
-                  {{ disk.status }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="overflow-x-auto shadow-lg rounded-lg">
+          <table class="min-w-full bg-white rounded-lg">
+            <thead class="bg-gray-100 text-gray-700">
+              <tr>
+                <th class="px-6 py-3 text-left">Date</th>
+                <th class="px-6 py-3 text-left">Server IP</th>
+                <th class="px-6 py-3 text-left">Server Name</th>
+                <th class="px-6 py-3 text-left">Drive</th>
+                <th class="px-6 py-3 text-left">Total Size</th>
+                <th class="px-6 py-3 text-left">Free Space</th>
+                <th class="px-6 py-3 text-left">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="disk in disks" :key="disk.server_ip" class="border-t hover:bg-gray-50 transition">
+                <td class="px-6 py-4">{{ disk.date }}</td>
+                <td class="px-6 py-4">{{ disk.server_ip }}</td>
+                <td class="px-6 py-4">{{ disk.server_name }}</td>
+                <td class="px-6 py-4">{{ disk.drive }}</td>
+                <td class="px-6 py-4">{{ disk.total_size }} {{ disk.uom }}</td>
+                <td class="px-6 py-4">{{ disk.free_space }} {{ disk.uom }}</td>
+                <td class="px-6 py-4">
+                  <span :class="statusColor[disk.status]"
+                    class="px-3 py-1 rounded text-sm font-medium inline-flex items-center">
+                    {{ disk.status }}
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </BreezeAuthenticatedLayout>
