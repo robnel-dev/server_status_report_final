@@ -11,16 +11,17 @@ class LogFile extends Model
     protected $table = 'svrfiles_db';
     protected $fillable = ['svrip', 'filename', 'filesize', 'datecrt', 'timecrt'];
 
-    // Add date casting for proper filtering
-    protected $casts = [
-        'datecrt' => 'date'
-    ];
+    protected $casts = ['datecrt' => 'date'];
 
-    // IP replacement accessor
+    // Scope: Exclude unwanted files
+    public function scopeExcludeFiles($query, array $files)
+    {
+        return $query->whereNotIn('filename', $files);
+    }
+
+    // Accessor: Adjust server IP
     public function getServerIpAttribute()
     {
-        return $this->svrip === '192.168.1.239' 
-            ? '192.168.1.20' 
-            : $this->svrip;
+        return $this->svrip === '192.168.1.239' ? '192.168.1.20' : $this->svrip;
     }
 }

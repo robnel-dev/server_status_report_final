@@ -1,43 +1,47 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 use App\Http\Controllers\{
+    ProfileController,
     DashboardController,
     DiskController,
     AntivirusController,
     LogController,
     PhysicalCheckController
 };
-use Inertia\Inertia;
 
+// Public routes (Unauthenticated)
+Route::get('/', fn () => Inertia::render('Auth/Login'))->name('login');
 
-Route::get('/', function () {
-    return Inertia::render('Auth/Login');
-});
-
+// Authenticated routes
 Route::middleware(['auth'])->group(function () {
-    // Default Breeze Dashboard
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    
+    // Dashboard
+    Route::get('/dashboard', fn () => Inertia::render('Dashboard'))->name('dashboard');
 
     // Sections
-    Route::get('/disks', [DiskController::class, 'index'])->name('disks');
-    Route::get('/antivirus', [AntivirusController::class, 'index'])->name('antivirus');
-    Route::get('/logs', [LogController::class, 'index'])->name('logs');
-    // Physical Checks routes
-    Route::get('/physical-checks', [PhysicalCheckController::class, 'index'])->name('physical-checks');
-    Route::post('/physical-checks', [PhysicalCheckController::class, 'store']);
-    Route::put('/physical-checks/{check}', [PhysicalCheckController::class, 'update'])->name('physical-checks.update');
-    Route::delete('/physical-checks/{check}', [PhysicalCheckController::class, 'destroy'])->name('physical-checks.destroy');
+    Route::prefix('sections')->group(function () {
+        Route::get('/disks', [DiskController::class, 'index'])->name('disks');
+        Route::get('/antivirus', [AntivirusController::class, 'index'])->name('antivirus');
+        Route::get('/logs', [LogController::class, 'index'])->name('logs');
+    });
+
+    // Physical Checks
+    Route::prefix('physical-checks')->name('physical-checks.')->group(function () {
+        Route::get('/', [PhysicalCheckController::class, 'index'])->name('index');
+        Route::post('/', [PhysicalCheckController::class, 'store'])->name('store');
+        Route::put('/{check}', [PhysicalCheckController::class, 'update'])->name('update');
+        Route::delete('/{check}', [PhysicalCheckController::class, 'destroy'])->name('destroy');
+    });
+
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
+// Authentication routes (e.g., Laravel Breeze)
 require __DIR__ . '/auth.php';
