@@ -35,7 +35,7 @@ class DiskController extends Controller
         if ($search) {
             $disks = $disks->filter(function ($disk) use ($search) {
                 $search = strtolower($search);
-                return 
+                return
                     str_contains(strtolower($disk->svrip), $search) ||
                     str_contains(strtolower($disk->server_name), $search) ||
                     str_contains(strtolower($disk->drvletter), $search) ||

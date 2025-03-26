@@ -3,7 +3,7 @@
   <Head title="Physical Checks" />
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2 class="font-semibold text-lg text-gray-800 leading-tight uppercase">
         Physical Server Room Checks
       </h2>
     </template>

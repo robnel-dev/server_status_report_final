@@ -3,7 +3,7 @@
   <Head title="Log Files" />
   <BreezeAuthenticatedLayout>
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      <h2 class="font-semibold text-lg text-gray-800 leading-tight uppercase">
         Server Log Files
       </h2>
     </template>
