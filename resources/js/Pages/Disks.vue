@@ -22,6 +22,7 @@
         </div>
 
 
+
         <!-- Table -->
         <div class="overflow-x-auto shadow-lg rounded-lg">
           <table class="min-w-full bg-white rounded-lg">
@@ -40,7 +41,19 @@
             <tbody>
               <tr v-for="disk in disks" :key="disk.server_ip" class="border-t hover:bg-blue-50 transition">
                 <td class="px-6 py-4">{{ disk.date }}</td>
-                <td class="px-6 py-4">{{ disk.server_ip }}</td>
+                <td class="px-6 py-4 relative">
+                  <span class="cursor-pointer text-black-600 hover:text-blue-700 relative"
+                    @mouseenter="showTooltip(disk.server_ip)" @mouseleave="hideTooltip(disk.server_ip)"
+                    @click="copyToClipboard(disk.server_ip)">
+                    {{ disk.server_ip }}
+                  </span>
+                  <div v-if="tooltip === disk.server_ip"
+                    class="absolute  bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-md -top-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                    {{ copiedIp === disk.server_ip ? "Copied!" : "Copy IP Address" }}
+                  </div>
+
+                </td>
+
                 <td class="px-6 py-4">{{ disk.server_name }}</td>
                 <td class="px-6 py-4">{{ disk.drive }}</td>
                 <td class="px-6 py-4">{{ disk.total_size }} {{ disk.uom }}</td>
@@ -116,6 +129,31 @@ const statusColor = (status) => {
   if (status.includes('🔴')) return 'bg-red-100 text-red-800';
   if (status.includes('🟡')) return 'bg-yellow-100 text-yellow-800';
   return 'bg-green-100 text-green-800';
+};
+
+//IP Tooltip
+const tooltip = ref(null);
+const copiedIp = ref(null);
+
+const showTooltip = (ip) => {
+  tooltip.value = ip;
+};
+
+const hideTooltip = (ip) => {
+  if (copiedIp.value !== ip) {
+    tooltip.value = null;
+  }
+};
+
+const copyToClipboard = (ip) => {
+  navigator.clipboard.writeText(ip).then(() => {
+    copiedIp.value = ip;
+    tooltip.value = ip; // Keep the tooltip visible
+    setTimeout(() => {
+      copiedIp.value = null;
+      tooltip.value = null;
+    }, 1000); // Reset after 2 seconds
+  });
 };
 
 
