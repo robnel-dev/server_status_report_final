@@ -31,7 +31,6 @@
               <tr>
                 <th class="px-6 py-3 text-left">Date</th>
                 <th class="px-6 py-3 text-left">Server IP</th>
-                <th class="px-6 py-3 text-left">Server Name</th>
                 <th class="px-6 py-3 text-left">Drive</th>
                 <th class="px-6 py-3 text-left">Total Size</th>
                 <th class="px-6 py-3 text-left">Free Space</th>
@@ -39,7 +38,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="disk in disks" :key="disk.server_ip" class="border-t hover:bg-blue-50 transition">
+              <tr v-for="disk in disks" :key="disk.server_ip + '-' + disk.drive" class="border-t hover:bg-blue-50 transition">
                 <td class="px-6 py-4">{{ disk.date }}</td>
                 <td class="px-6 py-4 relative">
                   <span class="cursor-pointer text-black-600 hover:text-blue-700 relative"
@@ -53,8 +52,6 @@
                   </div>
 
                 </td>
-
-                <td class="px-6 py-4">{{ disk.server_name }}</td>
                 <td class="px-6 py-4">{{ disk.drive }}</td>
                 <td class="px-6 py-4">{{ disk.total_size }} {{ disk.uom }}</td>
                 <td class="px-6 py-4">{{ disk.free_space }} {{ disk.uom }}</td>
@@ -94,8 +91,10 @@ const updateResults = debounce(() => {
     date.toISOString().split('T')[0]
   );
 
-alert('start: ' + start);
-alert('end: ' + end);
+// alert('start: ' + start);
+// alert('end: ' + end);
+// alert('search: ' + searchQuery);
+
   router.get('/disks', {
     search: searchQuery.value,
     start_date: start,
@@ -112,6 +111,14 @@ const handleDateChange = () => updateResults();
 
 // Initialization
 onMounted(() => {
+
+  console.log("Received Disks:", props.disks); // Debugging output
+  
+  if (!props.disks || props.disks.length === 0) {
+    console.warn("No disks received!");
+  }
+
+
   const urlParams = new URLSearchParams(window.location.search);
   searchQuery.value = urlParams.get('search') || '';
 

@@ -8,7 +8,8 @@ use App\Http\Controllers\{
     DiskController,
     AntivirusController,
     LogController,
-    PhysicalCheckController
+    PhysicalCheckController,
+    ServerDiskController
 };
 use Inertia\Inertia;
 
@@ -24,7 +25,7 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     // Sections
-    Route::get('/disks', [DiskController::class, 'index'])->name('disks');
+    Route::get('/disks', [ServerDiskController::class, 'index'])->name('disks');
     Route::get('/antivirus', [AntivirusController::class, 'index'])->name('antivirus');
     Route::get('/logs', [LogController::class, 'index'])->name('logs');
     // Physical Checks routes
