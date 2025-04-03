@@ -27,15 +27,12 @@ class Storage extends Model
         'remarks'
     ];
 
-    // Ensure correct data types
+
     protected $casts = [
         'svrStat' => 'integer',
         'dateCRT' => 'string', 
     ];
 
-    /**
-     * Convert stored dateCRT (YYYYMMDD) to Y-m-d
-     */
     public function getFormattedDateAttribute()
     {
         return Carbon::createFromFormat('Ymd', $this->dateCRT)->format('Y-m-d');

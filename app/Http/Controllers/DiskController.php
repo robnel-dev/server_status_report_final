@@ -12,6 +12,7 @@ class DiskController extends Controller
 {
     public function index(Request $request)
     {
+
         // Validate request inputs
         $request->validate([
             'start_date' => 'nullable|date',
@@ -19,7 +20,7 @@ class DiskController extends Controller
             'search' => 'nullable|string|max:255'
         ]);
 
-       
+   
         $startDate = $request->input('start_date') 
             ? Carbon::parse($request->input('start_date'))->format('Ymd') 
             : now()->format('Ymd');
@@ -27,7 +28,7 @@ class DiskController extends Controller
         $endDate = $request->input('end_date') 
             ? Carbon::parse($request->input('end_date'))->format('Ymd') 
             : now()->format('Ymd');
-
+        
         $search = strtolower($request->input('search', ''));
 
         // Fetch filtered data
