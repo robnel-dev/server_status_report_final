@@ -87,13 +87,11 @@ const selectedDates = ref([new Date(), new Date()]);
 
 // Unified debounced handler
 const updateResults = debounce(() => {
-  const [start, end] = selectedDates.value.map(date =>
-    date.toISOString().split('T')[0]
-  );
+  const [start, end] = selectedDates.value.map(date => {
+    return date.toISOString().slice(0, 10).replace(/-/g, ''); // Convert to YYYYMMDD
+  });
 
-// alert('start: ' + start);
-// alert('end: ' + end);
-// alert('search: ' + searchQuery);
+  alert('Search: ' + searchQuery.value + ', Start: ' + start + ', End: ' + end);
 
   router.get('/disks', {
     search: searchQuery.value,
@@ -109,15 +107,13 @@ const updateResults = debounce(() => {
 const handleSearch = () => updateResults();
 const handleDateChange = () => updateResults();
 
+// Debugging output
+//   if (!props.disks || props.disks.length === 0) {
+//     console.warn("No disks received!");
+//   }
+
 // Initialization
 onMounted(() => {
-
-  console.log("Received Disks:", props.disks); // Debugging output
-  
-  if (!props.disks || props.disks.length === 0) {
-    console.warn("No disks received!");
-  }
-
 
   const urlParams = new URLSearchParams(window.location.search);
   searchQuery.value = urlParams.get('search') || '';
@@ -161,7 +157,7 @@ const copyToClipboard = (ip) => {
     setTimeout(() => {
       copiedIp.value = null;
       tooltip.value = null;
-    }, 1000); // Reset after 2 seconds
+    }, 1000); // Reset after 1 seconds
   });
 };
 

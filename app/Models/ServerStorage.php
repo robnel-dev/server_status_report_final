@@ -10,11 +10,11 @@ class ServerStorage extends Model
 {
     use HasFactory;
     
-    protected $connection = 'mysql_company'; // Connect to the company database
+    protected $connection = 'mysql_company'; 
     protected $table = 'svrstorage_db';
     protected $primaryKey = 'cntr';
     public $incrementing = true;
-    public $timestamps = false; // Ensure timestamps are disabled if not in DB
+    public $timestamps = false; 
 
     protected $fillable = [
         'svrIP', 
@@ -30,7 +30,7 @@ class ServerStorage extends Model
     // Ensure correct data types
     protected $casts = [
         'svrStat' => 'integer',
-        'dateCRT' => 'string', // Store as string, convert when needed
+        'dateCRT' => 'string', 
     ];
 
     /**
@@ -86,7 +86,8 @@ class ServerStorage extends Model
      * Scope to filter by date range
      */
     public function scopeDateRange($query, $start, $end)
-    {
-        return $query->whereBetween('dateCRT', [$start, $end]);
-    }
+{
+    return $query->whereRaw("CAST(dateCRT AS CHAR) BETWEEN ? AND ?", [(string) $start, (string) $end]);
+}
+
 }

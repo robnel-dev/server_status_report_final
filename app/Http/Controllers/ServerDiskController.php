@@ -19,7 +19,7 @@ class ServerDiskController extends Controller
             'search' => 'nullable|string|max:255'
         ]);
 
-        // Convert input dates from Y-m-d to YYYYMMDD (database format)
+       
         $startDate = $request->input('start_date') 
             ? Carbon::parse($request->input('start_date'))->format('Ymd') 
             : now()->format('Ymd');
@@ -30,33 +30,41 @@ class ServerDiskController extends Controller
 
         $search = strtolower($request->input('search', ''));
 
+        //For Debugging
+        // Log::info("Start Date: {$startDate}, End Date: {$endDate}");
+        // Log::info("Executing Query: " . ServerStorage::active()->dateRange($startDate, $endDate)->toSql(), [
+        //     'bindings' => ServerStorage::active()->dateRange($startDate, $endDate)->getBindings()
+        // ]); 
+
+
+        Log::info("Executing Query: " . ServerStorage::active()->dateRange($startDate, $endDate)->toSql(), [
+            'bindings' => [$startDate, $endDate]
+        ]);
+        
+
         // Fetch filtered data
         $disks = ServerStorage::active()
             ->dateRange($startDate, $endDate)
-             //->whereNotIn('svrIP', ['192.168.1.110', '192.168.44.139'])
             ->orderBy('dateCRT', 'asc')
             ->orderBy('svrIP')
             ->orderBy('drvLetter')
             ->get()
             ->filter(function ($disk) use ($search) {
                 return empty($search) || collect([
-                    $disk->svrIP, 
-                    $disk->drvLetter, 
-                    $disk->drvSizeTotal, 
-                    $disk->drvSizeFree, 
-                    $disk->dateCRT, 
+                    $disk->svrIP,
+                    $disk->drvLetter,
+                    $disk->drvSizeTotal,
+                    $disk->drvSizeFree,
+                    $disk->dateCRT,
                     $disk->status
-                ])->map(fn ($value) => strtolower($value))
-                  ->contains(fn ($val) => str_contains($val, $search));
+                ])->map(fn($value) => strtolower($value))
+                    ->contains(fn($val) => str_contains($val, $search));
             });
-
-        Log::info("Start Date: " . $startDate . ", End Date: " . $endDate);
-
 
         // Transform Data for Frontend
         return Inertia::render('Disks', [
-            'disks' => $disks->map(fn ($disk) => [
-                'date' => $disk->formatted_date, // Uses the fixed formatted date
+            'disks' => $disks->map(fn($disk) => [
+                'date' => $disk->formatted_date, 
                 'server_ip' => $disk->svrIP,
                 'drive' => $disk->drvLetter,
                 'total_size' => $disk->drvSizeTotal,
