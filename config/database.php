@@ -62,6 +62,26 @@ return [
             ]) : [],
         ],
 
+        'mysql_company' => [
+            'driver' => 'mysql',
+            'url' => env('DB_COMPANY_URL'),
+            'host' => env('DB_COMPANY_HOST', '192.168.1.236'),
+            'port' => env('DB_COMPANY_PORT', '3306'),
+            'database' => env('DB_COMPANY_DATABASE', 'itsystems'),
+            'username' => env('DB_COMPANY_USERNAME', 'systems_generic'),
+            'password' => env('DB_COMPANY_PASSWORD', 'sgeneric'),
+            'unix_socket' => env('DB_COMPANY_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'strict' => false, 
+            'engine' => null,
+            'options' => extension_loaded('pdo_mysql') ? array_filter([
+                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
+            ]) : [],
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
