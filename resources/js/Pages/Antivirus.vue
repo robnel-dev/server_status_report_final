@@ -33,7 +33,7 @@
                 <th class="px-6 py-3 text-left">Last Scan</th>
                 <th class="px-6 py-3 text-left">Time Recorded</th>
                 <th class="px-6 py-3 text-left">Remarks</th>
-              </tr>
+              </tr> 
             </thead>
             <tbody>
               <tr v-for="antivirus in antiviruses" :key="antivirus.cntr" class="border-t hover:bg-blue-50 transition">
