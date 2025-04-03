@@ -30,18 +30,6 @@ class ServerDiskController extends Controller
 
         $search = strtolower($request->input('search', ''));
 
-        //For Debugging
-        // Log::info("Start Date: {$startDate}, End Date: {$endDate}");
-        // Log::info("Executing Query: " . ServerStorage::active()->dateRange($startDate, $endDate)->toSql(), [
-        //     'bindings' => ServerStorage::active()->dateRange($startDate, $endDate)->getBindings()
-        // ]); 
-
-
-        // Log::info("Executing Query: " . ServerStorage::active()->dateRange($startDate, $endDate)->toSql(), [
-        //     'bindings' => [$startDate, $endDate]
-        // ]);
-        
-
         // Fetch filtered data
         $disks = ServerStorage::active()
             ->dateRange($startDate, $endDate)
