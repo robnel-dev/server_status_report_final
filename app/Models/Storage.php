@@ -9,53 +9,85 @@ use Carbon\Carbon;
 class Storage extends Model
 {
     use HasFactory;
-
+    
+    protected $connection = 'mysql_company'; 
     protected $table = 'svrstorage_db';
+    protected $primaryKey = 'cntr';
+    public $incrementing = true;
+    public $timestamps = false; 
+
     protected $fillable = [
-        'svrip', 
-        'server_name', 
-        'drvletter', 
-        'drvsizetotal',
-        'drvsize_free', 
-        'uom',
-        'datecrt', 
-        'timecrt',
-        'svrstat'
+        'svrIP', 
+        'drvLetter', 
+        'drvSizeTotal', 
+        'drvSizeFree', 
+        'dateCRT', 
+        'timeCRT', 
+        'svrStat', 
+        'remarks'
     ];
 
+    // Ensure correct data types
     protected $casts = [
-        'datecrt' => 'datetime',
+        'svrStat' => 'integer',
+        'dateCRT' => 'string', 
     ];
 
-    // Status calculation with error prevention
-    public function getStatusAttribute()
+    /**
+     * Convert stored dateCRT (YYYYMMDD) to Y-m-d
+     */
+    public function getFormattedDateAttribute()
     {
-        $total = $this->uom === 'MB' ? $this->drvsizetotal / 1024 : $this->drvsizetotal;
-        $free = $this->uom === 'MB' ? $this->drvsize_free / 1024 : $this->drvsize_free;
+        return Carbon::createFromFormat('Ymd', $this->dateCRT)->format('Y-m-d');
+    }
 
-        // Prevent division by zero
-        $percentage = $total > 0 ? ($free / $total) * 100 : 0;
+    /**
+     * Convert sizes from MB/GB to a numeric GB value
+     */
+    private function parseSize($size)
+    {
+        preg_match('/([\d.]+)\s*(MB|GB|TB)?/i', $size, $matches);
+        if (!isset($matches[1])) return 0; // Default to 0 if no match
+        $value = (float) $matches[1];
+        $unit = strtoupper($matches[2] ?? 'GB'); // Default to GB
 
-        return match(true) {
-            $percentage <= 20 => 'Critical 🔴',
-            $percentage <= 25 => 'Warning 🟡',
-            default => 'Normal 🟢'
+        return match ($unit) {
+            'MB' => round($value / 1024, 2), // Convert MB to GB
+            'TB' => $value * 1024, // Convert TB to GB
+            default => $value // Assume GB
         };
     }
 
-    // Scopes for query organization
+    /**
+     * Get storage status
+     */
+    public function getStatusAttribute()
+    {
+        $total = $this->parseSize($this->drvSizeTotal);
+        $free = $this->parseSize($this->drvSizeFree);
+        $percentage = ($total > 0) ? ($free / $total) * 100 : 0;
+
+        return match(true) {
+            $percentage <= 20 => '🔴 Critical',
+            $percentage <= 25 => '🟡 Warning',
+            default => '🟢 Normal'
+        };
+    }
+
+    /**
+     * Scope to filter active servers
+     */
     public function scopeActive($query)
     {
-        return $query->where('svrstat', 1);
+        return $query->where('svrStat', 1);
     }
 
-    public function scopeExcludeIps($query, array $ips)
-    {
-        return $query->whereNotIn('svrip', $ips);
-    }
-
+    /**
+     * Scope to filter by date range
+     */
     public function scopeDateRange($query, $start, $end)
-    {
-        return $query->whereBetween('datecrt', [$start, $end]);
-    }
+{
+    return $query->whereRaw("CAST(dateCRT AS CHAR) BETWEEN ? AND ?", [(string) $start, (string) $end]);
+}
+
 }

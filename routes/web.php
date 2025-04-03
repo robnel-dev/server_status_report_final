@@ -27,9 +27,9 @@ Route::middleware(['auth'])->group(function () {
     })->name('dashboard');
 
     // Sections
-    Route::get('/disks', [ServerDiskController::class, 'index'])->name('disks');
-    Route::get('/antivirus', [ServerAntivirusController::class, 'index'])->name('antivirus');
-    Route::get('/logs', [ServerLogController::class, 'index'])->name('logs');
+    Route::get('/disks', [DiskController::class, 'index'])->name('disks');
+    Route::get('/antivirus', [AntivirusController::class, 'index'])->name('antivirus');
+    Route::get('/logs', [LogController::class, 'index'])->name('logs');
     // Physical Checks routes
     Route::get('/physical-checks', [PhysicalCheckController::class, 'index'])->name('physical-checks');
     Route::post('/physical-checks', [PhysicalCheckController::class, 'store']);

@@ -5,30 +5,48 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\LogFile;
 use Inertia\Inertia;
+use Carbon\Carbon;
 
 class LogController extends Controller
 {
     public function index(Request $request)
     {
-        // Get dates from request or default to today
-        $startDate = $request->input('start_date', now()->toDateString());
-        $endDate = $request->input('end_date', now()->toDateString());
+        // Validate request inputs
+        $request->validate([
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+        ]);
 
-        $logs = LogFile::whereBetween('datecrt', [$startDate, $endDate])
-            ->where('filename', '<>', 'DB.XLSX')
-            ->where('svrstat', 1)
-            ->orderBy('svrip')
+        // Format start and end dates to match database format (YYYYMMDD)
+        $startDate = $request->input('start_date')
+            ? Carbon::parse($request->input('start_date'))->format('Ymd')
+            : now()->format('Ymd');
+
+        $endDate = $request->input('end_date')
+            ? Carbon::parse($request->input('end_date'))->format('Ymd')
+            : now()->format('Ymd');
+
+
+        // Fetch logs using model query scopes
+        $logs = LogFile::active()
+            ->dateRange($startDate, $endDate)
+            ->orderBy('svrIP')
+            ->orderBy('fileName')
             ->get();
+
 
         return Inertia::render('Logs', [
             'logs' => $logs->map(function ($log) {
                 return [
-                    'id' => $log->id,
-                    'server_ip' => $log->server_ip, // Using the accessor
-                    'filename' => $log->filename,
-                    'filesize' => $log->filesize,
-                    'datecrt' => $log->datecrt,
-                    'timecrt' => $log->timecrt
+                    'id' => $log->cntr,
+                    'server_ip' => $log->server_ip, 
+                    'filename' => $log->fileName,
+                    'filesize' => $log->fileSize,
+                    'datecrt' => $log->formatted_date, 
+                    'timecrt' => $log->timeCRT,
+                    'remarks' => $log->remarks ?? 'N/A',
+                    'date_modified' => $log->dateMod ?? 'N/A',
+                    'backup' => $log->bckupIn ? 'Yes' : 'No'
                 ];
             })
         ]);
