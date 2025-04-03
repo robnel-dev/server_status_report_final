@@ -94,6 +94,8 @@ const updateResults = debounce(() => {
     date.toISOString().split('T')[0]
   );
 
+alert('start: ' + start);
+alert('end: ' + end);
   router.get('/disks', {
     search: searchQuery.value,
     start_date: start,

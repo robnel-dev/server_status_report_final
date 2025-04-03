@@ -23,6 +23,8 @@ class DiskController extends Controller
         $endDate = $request->input('end_date') ? Carbon::parse($request->input('end_date'))->endOfDay() : now()->endOfDay();
         $search = strtolower($request->input('search', ''));
 
+        
+
         // Fetch filtered data
         $disks = Storage::whereBetween('datecrt', [$startDate, $endDate])
             ->whereNotIn('svrip', ['192.168.1.110', '192.168.44.139'])

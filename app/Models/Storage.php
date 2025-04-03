@@ -17,7 +17,7 @@ class Storage extends Model
         'drvletter', 
         'drvsizetotal',
         'drvsize_free', 
-        'uom',  // Fixed typo from 'oum'
+        'uom',
         'datecrt', 
         'timecrt',
         'svrstat'
