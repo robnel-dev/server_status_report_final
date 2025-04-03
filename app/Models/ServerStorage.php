@@ -68,9 +68,9 @@ class ServerStorage extends Model
         $percentage = ($total > 0) ? ($free / $total) * 100 : 0;
 
         return match(true) {
-            $percentage <= 20 => 'Critical 🔴',
-            $percentage <= 25 => 'Warning 🟡',
-            default => 'Normal 🟢'
+            $percentage <= 20 => '🔴 Critical',
+            $percentage <= 25 => '🟡 Warning',
+            default => '🟢 Normal'
         };
     }
 

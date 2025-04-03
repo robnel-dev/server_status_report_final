@@ -38,20 +38,22 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="disk in disks" :key="disk.server_ip + '-' + disk.drive" class="border-t hover:bg-blue-50 transition">
+              <tr v-for="disk in disks" :key="disk.server_ip + '-' + disk.drive"
+                class="border-t hover:bg-blue-50 transition">
                 <td class="px-6 py-4">{{ disk.date }}</td>
                 <td class="px-6 py-4 relative">
                   <span class="cursor-pointer text-black-600 hover:text-blue-700 relative"
-                    @mouseenter="showTooltip(disk.server_ip)" @mouseleave="hideTooltip(disk.server_ip)"
-                    @click="copyToClipboard(disk.server_ip)">
+                    @mouseenter="showTooltip(disk.server_ip, disk.drive)"
+                    @mouseleave="hideTooltip(disk.server_ip, disk.drive)"
+                    @click="copyToClipboard(disk.server_ip, disk.drive)">
                     {{ disk.server_ip }}
                   </span>
-                  <div v-if="tooltip === disk.server_ip"
-                    class="absolute  bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-md -top-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
-                    {{ copiedIp === disk.server_ip ? "Copied!" : "Copy IP Address" }}
+                  <div v-if="tooltip === `${disk.server_ip}-${disk.drive}`"
+                    class="absolute bg-gray-800 text-white text-xs px-2 py-1 rounded shadow-md -top-6 left-1/2 transform -translate-x-1/2 whitespace-nowrap">
+                    {{ copiedIp === `${disk.server_ip}-${disk.drive}` ? "Copied!" : "Copy IP Address" }}
                   </div>
-
                 </td>
+
                 <td class="px-6 py-4">{{ disk.drive }}</td>
                 <td class="px-6 py-4">{{ disk.total_size }} {{ disk.uom }}</td>
                 <td class="px-6 py-4">{{ disk.free_space }} {{ disk.uom }}</td>
@@ -90,8 +92,6 @@ const updateResults = debounce(() => {
   const [start, end] = selectedDates.value.map(date => {
     return date.toISOString().slice(0, 10).replace(/-/g, ''); // Convert to YYYYMMDD
   });
-
-  alert('Search: ' + searchQuery.value + ', Start: ' + start + ', End: ' + end);
 
   router.get('/disks', {
     search: searchQuery.value,
@@ -136,30 +136,30 @@ const statusColor = (status) => {
   return 'bg-green-100 text-green-800';
 };
 
-//IP Tooltip
 const tooltip = ref(null);
 const copiedIp = ref(null);
 
-const showTooltip = (ip) => {
-  tooltip.value = ip;
+const showTooltip = (ip, drive) => {
+  tooltip.value = `${ip}-${drive}`;
 };
 
-const hideTooltip = (ip) => {
-  if (copiedIp.value !== ip) {
+const hideTooltip = (ip, drive) => {
+  if (copiedIp.value !== `${ip}-${drive}`) {
     tooltip.value = null;
   }
 };
 
-const copyToClipboard = (ip) => {
+const copyToClipboard = (ip, drive) => {
   navigator.clipboard.writeText(ip).then(() => {
-    copiedIp.value = ip;
-    tooltip.value = ip; // Keep the tooltip visible
+    copiedIp.value = `${ip}-${drive}`;
+    tooltip.value = `${ip}-${drive}`; // Keep the tooltip visible
     setTimeout(() => {
       copiedIp.value = null;
       tooltip.value = null;
-    }, 1000); // Reset after 1 seconds
+    }, 1000); // Reset after 1 second
   });
 };
+
 
 
 </script>

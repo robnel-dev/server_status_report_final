@@ -37,9 +37,9 @@ class ServerDiskController extends Controller
         // ]); 
 
 
-        Log::info("Executing Query: " . ServerStorage::active()->dateRange($startDate, $endDate)->toSql(), [
-            'bindings' => [$startDate, $endDate]
-        ]);
+        // Log::info("Executing Query: " . ServerStorage::active()->dateRange($startDate, $endDate)->toSql(), [
+        //     'bindings' => [$startDate, $endDate]
+        // ]);
         
 
         // Fetch filtered data
