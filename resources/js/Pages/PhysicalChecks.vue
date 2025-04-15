@@ -10,21 +10,25 @@
 
     <div class="py-12">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="mb-6 flex justify-between items-center">
+        <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+          <!-- Add New Check Button -->
+          <button @click="showModal = true"
+            class="inline-flex items-center justify-center px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-medium rounded-md shadow hover:from-blue-700 hover:to-purple-700 transition duration-200">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" class="size-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg> New Record
+          </button>
+
+          <!-- Datepicker -->
           <Datepicker v-model="selectedDates" range :enable-time-picker="false" @update:model-value="handleDateChange"
-            placeholder="Select date range" class="w-full max-w-xs ml-auto" />
+            placeholder="Select date range" class="w-full max-w-xs" />
         </div>
-        <!-- <NavigationTabs /> -->
-
-        <!-- Add New Check Button -->
-        <!-- <button @click="showModal = true" class="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-200">
-          + New Record
-        </button> -->
-
 
         <!-- Modal Form -->
-        <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div class="bg-white p-6 rounded-lg w-96">
+        <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div class="bg-white w-full max-w-md p-6 rounded-xl shadow-2xl animate-fadeIn">
+
             <h2 class="text-xl mb-4">Add Physical Check</h2>
             <form @submit.prevent="submit">
               <div class="space-y-4">
@@ -61,16 +65,17 @@
         </div>
 
         <!-- Edit Modal (Add after Add Modal) -->
-        <div v-if="showEditModal" class="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div class="bg-white p-6 rounded-lg w-96">
+        <div v-if="showEditModal"
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div class="bg-white w-full max-w-md p-6 rounded-xl shadow-2xl animate-fadeIn">
             <h2 class="text-xl mb-4">Edit Physical Check</h2>
             <form @submit.prevent="submitUpdate">
               <div class="space-y-4">
                 <!-- Same fields as Add Modal -->
-                <!-- <div>
+                <div>
                   <label>In Charge</label>
                   <input v-model="editForm.in_charge" type="text" class="w-full p-2 border rounded" required>
-                </div> -->
+                </div>
                 <div>
                   <label>Aircon Status</label>
                   <select v-model="editForm.aircon_status" class="w-full p-2 border rounded" required>
@@ -100,22 +105,31 @@
         </div>
 
         <!-- Delete Confirmation Modal -->
-        <div v-if="showDeleteModal" class="fixed inset-0 bg-black/50 flex items-center justify-center">
-          <div class="bg-white p-6 rounded-lg w-96 shadow-xl">
-            <div class="mb-4">
-              <h3 class="text-lg font-semibold">Confirm Delete</h3>
-              <p class="text-gray-600 mt-2">Are you sure you want to delete the remarks on this record? This action
-                cannot
-                be undone.
-              </p>
+        <div v-if="showDeleteModal"
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div
+            class="w-full max-w-md bg-gradient-to-br from-white via-gray-50 to-white p-6 rounded-2xl shadow-2xl animate-fadeIn">
+            <div class="flex items-center gap-3 mb-4">
+              <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 1010 10A10 10 0 0012 2z" />
+              </svg>
+              <h3 class="text-lg font-bold text-gray-800">Confirm Deletion</h3>
             </div>
+
+            <p class="text-gray-600 mb-6 leading-relaxed">
+              Are you sure you want to delete the <span class="font-semibold text-red-600">remarks</span> on this
+              record?
+              <br>This action <span class="font-medium text-gray-800">cannot be undone.</span>
+            </p>
+
             <div class="flex justify-end gap-3">
               <button @click="showDeleteModal = false"
-                class="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors">
+                class="px-4 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-md transition">
                 Cancel
               </button>
               <button @click="confirmDelete"
-                class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors">
+                class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition font-medium">
                 Delete
               </button>
             </div>
@@ -123,60 +137,62 @@
         </div>
 
         <!-- Checks Table -->
-        <div class="overflow-x-auto shadow-lg rounded-lg">
-        <table class="min-w-full bg-white rounded-lg">
-          <thead class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white">
-            <tr>
-              <!-- <th class="px-6 py-3 text-left">In Charge</th> -->
-              <th class="px-6 py-3 text-left">Date Recorded</th>
-              <th class="px-6 py-3 text-left">Aircon Status</th>
-              <th class="px-6 py-3 text-left">Amber Alert</th>
-              <th class="px-6 py-3 text-left">Remarks</th>
-              <th class="px-6 py-3 text-left">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="check in checks" :key="check.id" class="border-t hover:bg-blue-50 transition">
-              <!-- <td class="px-6 py-4">{{ check.in_charge }}</td> -->
-              <td class="px-6 py-4">{{ formatDate(check.created_at) }}</td>
-              <td class="px-6 py-4">{{ check.aircon_status }}</td>
-              <td class="px-6 py-4">{{ check.amber_alert ? 'Yes' : 'No' }}</td>
-              <td class="px-6 py-4">{{ check.remarks }}</td>
-              <td class="px-6 py-4">
-                <div class="flex gap-2">
-                  <!-- Edit Icon with Tooltip -->
-                  <div class="relative group">
-                    <button @click="openEditModal(check)" class="text-blue-500 hover:text-blue-700">
-                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path
-                          d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                      </svg>
-                    </button>
-                    <span
-                      class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition">
-                      Edit
-                    </span>
-                  </div>
+        <div :class="{ 'pointer-events-none opacity-30': isAnyModalOpen }"
+          class="overflow-x-auto shadow-lg rounded-lg transition duration-200">
+          <table class="min-w-full bg-white rounded-lg">
+            <thead class="bg-gradient-to-r from-blue-700 via-indigo-600 to-purple-700 text-white">
+              <tr>
+                <th class="px-6 py-3 text-left">In Charge</th>
+                <th class="px-6 py-3 text-left">Date Recorded</th>
+                <th class="px-6 py-3 text-left">Aircon Status</th>
+                <th class="px-6 py-3 text-left">Amber Alert</th>
+                <th class="px-6 py-3 text-left">Remarks</th>
+                <th class="px-6 py-3 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="check in checks" :key="check.id" class="border-t hover:bg-blue-50 transition">
+                <td class="px-6 py-4">{{ check.in_charge }}</td>
+                <td class="px-6 py-4">{{ formatDate(check.created_at) }}</td>
+                <td class="px-6 py-4">{{ check.aircon_status }}</td>
+                <td class="px-6 py-4">{{ check.amber_alert ? 'Yes' : 'No' }}</td>
+                <td class="px-6 py-4">{{ check.remarks }}</td>
+                <td class="px-6 py-4">
+                  <div class="flex gap-2">
+                    <!-- Edit Icon with Tooltip -->
+                    <div class="relative group">
+                      <button @click="openEditModal(check)" class="text-blue-500 hover:text-blue-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                          <path
+                            d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                        </svg>
+                      </button>
+                      <span
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition">
+                        Edit
+                      </span>
+                    </div>
 
-                  <!-- Delete Icon with Tooltip -->
-                  <div class="relative group">
-                    <button @click="initiateDelete(check.id)" class="text-red-500 hover:text-red-700 transition-colors">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                    <span
-                      class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition">
-                      Delete Remarks
-                    </span>
-                  </div>
+                    <!-- Delete Icon with Tooltip -->
+                    <div class="relative group">
+                      <button @click="initiateDelete(check.id)"
+                        class="text-red-500 hover:text-red-700 transition-colors">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                      <span
+                        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100 transition">
+                        Delete Remarks
+                      </span>
+                    </div>
 
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -187,24 +203,24 @@
 import { Head, useForm, router } from '@inertiajs/vue3';
 import BreezeAuthenticatedLayout from '@/Layouts/Authenticated.vue';
 import NavigationTabs from '@/Shared/NavigationTabs.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
 const props = defineProps({ checks: Array });
-
+const isAnyModalOpen = computed(() => showModal.value || showEditModal.value || showDeleteModal.value);
 
 // Date Handling
 const handleDateChange = (dates) => {
   if (!dates || dates.length !== 2) return;
-  
+
   const formatDate = (date) => date.toLocaleDateString('en-CA');
   const [start, end] = dates.map(formatDate);
-  
-  router.get('/physical-checks', { 
+
+  router.get('/physical-checks', {
     start_date: start,
-    end_date: end 
-  }, { 
+    end_date: end
+  }, {
     preserveState: true,
     replace: true
   });
@@ -215,7 +231,7 @@ onMounted(() => {
   const urlParams = new URLSearchParams(window.location.search);
   const startParam = urlParams.get('start_date');
   const endParam = urlParams.get('end_date');
-  
+
   if (startParam && endParam) {
     selectedDates.value = [new Date(startParam), new Date(endParam)];
   }
