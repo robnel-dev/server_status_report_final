@@ -12,7 +12,7 @@ class Antivirus extends Model
     protected $connection = 'mysql_company';
     protected $table = 'svrantivirus_db';
     protected $primaryKey = 'cntr';
-    public $timestamps = false; // No created_at and updated_at
+    public $timestamps = false; 
 
     protected $fillable = [
         'svrIP',

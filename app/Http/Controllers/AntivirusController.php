@@ -11,7 +11,7 @@ class AntivirusController extends Controller
     public function index(Request $request)
     {
 
-        // Validate request inputs
+       
         $request->validate([
             'start_date' => 'nullable|date',
             'end_date' => 'nullable|date',

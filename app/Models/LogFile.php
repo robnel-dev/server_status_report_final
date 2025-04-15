@@ -17,7 +17,7 @@ class LogFile extends Model
         'svrIP', 'fileName', 'fileSize', 'dateCRT', 'timeCRT', 'svrStat', 'remarks', 'dateMod', 'bckupIn'
     ];
 
-    // Cast dateCRT as date for proper filtering
+
     protected $casts = [
         'svrStat' => 'integer',
         'dateCRT' => 'string', 
