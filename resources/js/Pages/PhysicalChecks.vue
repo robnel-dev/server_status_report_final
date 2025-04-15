@@ -51,7 +51,7 @@
                 </div>
                 <div>
                   <label>Remarks</label>
-                  <textarea v-model="form.remarks" class="w-full p-2 border rounded"></textarea>
+                  <textarea v-model="form.remarks" class="w-full p-2 border rounded" required></textarea>
                 </div>
                 <div class="flex gap-2">
                   <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Save</button>
@@ -276,6 +276,12 @@ const form = useForm({
 });
 
 const submit = () => {
+  // Fallbacks if any of the form values are unexpectedly null
+  form.in_charge = form.in_charge || '';
+  form.aircon_status = form.aircon_status || 'Normal';
+  form.amber_alert = form.amber_alert === null ? false : form.amber_alert;
+  form.remarks = form.remarks || '';
+
   form.post(route('physical-checks'), {
     onSuccess: () => {
       showModal.value = false;
@@ -283,6 +289,7 @@ const submit = () => {
     }
   });
 };
+
 
 // Edit functionality
 const showEditModal = ref(false);
@@ -304,6 +311,11 @@ const openEditModal = (check) => {
 };
 
 const submitUpdate = () => {
+  editForm.in_charge = editForm.in_charge || '';
+  editForm.aircon_status = editForm.aircon_status || 'Normal';
+  editForm.amber_alert = editForm.amber_alert === null ? false : editForm.amber_alert;
+  editForm.remarks = editForm.remarks || '';
+
   editForm.put(route('physical-checks.update', editForm.id), {
     onSuccess: () => {
       showEditModal.value = false;
@@ -311,6 +323,7 @@ const submitUpdate = () => {
     }
   });
 };
+
 
 // Delete functionality
 const initiateDelete = (id) => {

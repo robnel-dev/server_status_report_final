@@ -9,16 +9,18 @@ use Illuminate\Support\Facades\DB;
 
 class AdminSeeder extends Seeder
 {
+    protected $connection = 'mysql'; // or your target connection
+
     public function run(): void
     {
-         // Delete all users before seeding
-         DB::table('users')->truncate();
+        DB::connection($this->connection)->table('users')->truncate();
 
-         // Create admin user
-         User::create([
-             'name' => 'Admin',
-             'email' => 'admin@example.com',
-             'password' => Hash::make('password123'), // Change this to a secure password
-         ]);
+        $user = new User([
+            'name' => env('ADMIN_NAME'),
+            'email' => env('ADMIN_EMAIL'),
+            'password' => Hash::make(env('ADMIN_PASSWORD')),
+        ]);
+
+        $user->setConnection($this->connection)->save();
     }
 }

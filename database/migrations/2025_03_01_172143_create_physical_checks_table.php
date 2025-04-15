@@ -20,9 +20,9 @@ return new class extends Migration
     {
         Schema::connection($this->connection)->create('physical_checks', function (Blueprint $table) {
             $table->id();
-            $table->string('in_charge'); // Person responsible
+            $table->string('in_charge'); // Person in charge of the check
             $table->enum('aircon_status', ['Normal', 'Faulty']);
-            $table->boolean('amber_alert'); // Yes/No
+            $table->boolean('amber_alert'); 
             $table->text('remarks');
             $table->timestamps();
         });
