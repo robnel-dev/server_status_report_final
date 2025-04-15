@@ -191,6 +191,28 @@
                   </div>
                 </td>
               </tr>
+
+              <!-- No Records Row -->
+              <tr v-if="checks.length === 0">
+                <td colspan="6" class="py-10 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-b-lg">
+                  <div class="flex flex-col items-center justify-center text-gray-600 space-y-2">
+                    <div class="bg-blue-100 text-blue-600 p-3 rounded-full shadow-sm">
+                      <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M9.75 9.75h.008v.008H9.75V9.75zm4.5 0h.008v.008H14.25V9.75zM12 15.75a3.75 3.75 0 0 0 3.748-3.584 5.25 5.25 0 1 0-7.496 0A3.75 3.75 0 0 0 12 15.75z" />
+                      </svg>
+                    </div>
+                    <div
+                      class="flex flex-col items-center justify-center text-gray-600 space-y-2 transition-all duration-300 ease-in-out transform animate-fade-in">
+                      No Check Records Found</div>
+                    <div class="text-sm text-gray-500">Try adjusting your date
+                      <span class="font-medium">filters</span>.
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
             </tbody>
           </table>
         </div>
