@@ -20,8 +20,7 @@
         <div class="mb-4 flex justify-left">
           <div
             class="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-indigo-800 text-sm px-4 py-2 rounded-lg shadow-sm italic">
-            Showing <span class="font-semibold">{{ logs.length }}</span> record<span
-              v-if="logs.length !== 1">s</span>
+            Showing <span class="font-semibold">{{ logs.length }}</span> record<span v-if="logs.length !== 1">s</span>
           </div>
         </div>
 
@@ -76,6 +75,14 @@
             </tbody>
           </table>
         </div>
+
+        <div class="flex justify-end mt-3 mb-12 px-2">
+          <button @click="exportToCSV"
+            class="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-indigo-800 font-medium px-6 py-3 rounded-xl shadow-sm hover:shadow-md hover:brightness-105 transition duration-300 ease-in-out border border-indigo-200">
+            📁 Export Logs as CSV
+          </button>
+        </div>
+
 
 
       </div>
@@ -136,4 +143,54 @@ onMounted(() => {
     ];
   }
 });
+
+
+const exportToCSV = () => {
+  if (!props.logs || props.logs.length === 0) {
+    alert("No logs to export!");
+    return;
+  }
+
+  // Create CSV header
+  const headers = [
+    "Date",
+    "Server IP",
+    "Filename",
+    "File Size",
+    "Time Created",
+    "Remarks",
+    "Date Modified",
+    "Backup"
+  ];
+
+  // Create rows from data
+  const rows = props.logs.map(log => [
+    log.datecrt,
+    log.server_ip,
+    log.filename,
+    log.filesize,
+    log.timecrt,
+    log.remarks,
+    log.date_modified,
+    log.backup
+  ]);
+
+  // Combine into CSV format
+  const csvContent =
+    [headers, ...rows]
+      .map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(","))
+      .join("\n");
+
+  // Download as file
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.setAttribute("href", url);
+  link.setAttribute("download", "server_logs.csv");
+  link.style.visibility = "hidden";
+  document.body.appendChild(link);
+  link.click(); 
+  document.body.removeChild(link);
+};
+
 </script>
