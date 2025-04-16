@@ -8,7 +8,7 @@
       </h2>
     </template>
 
-    <div class="py-12">
+    <div class="py-3">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <!-- Date Picker -->
         <div class="flex items-center justify-end mb-6">

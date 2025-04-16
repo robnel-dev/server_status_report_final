@@ -8,7 +8,7 @@
       </h2>
     </template>
 
-    <div class="py-12">
+    <div class="py-3">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="mb-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
           <!-- Add New Check Button -->
