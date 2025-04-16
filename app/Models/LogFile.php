@@ -52,5 +52,12 @@ class LogFile extends Model
     return $query->whereRaw("CAST(dateCRT AS CHAR) BETWEEN ? AND ?", [(string) $start, (string) $end]);
 }
 
+/**
+ * Scope to exclude specific server IPs
+ */
+public function scopeExcludeFiles($query, array $fileName)
+{
+    return $query->whereNotIn('fileName', $fileName);
+}
 
 }

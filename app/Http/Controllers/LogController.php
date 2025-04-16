@@ -29,6 +29,7 @@ class LogController extends Controller
 
         // Fetch logs using model query scopes
         $logs = LogFile::active()
+            //->excludeFiles(['DB.XLSX']) //For Confirmation to sir Bryan
             ->dateRange($startDate, $endDate)
             ->orderBy('svrIP')
             ->orderBy('fileName')
