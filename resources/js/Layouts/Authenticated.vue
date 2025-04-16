@@ -25,7 +25,7 @@ const mobileMenuClass = computed(() => ({
                 <div class="flex h-16 justify-between items-center">
                     <!-- Logo & Title -->
                     <div class="flex items-center space-x-4">
-                        <Link :href="route('disks')">
+                        <Link :href="route('dashboard')">
                         <img src="/images/GuessLogo.png" alt="Company Logo" class="h-12 w-auto rounded-lg shadow-lg">
                         </Link>
                         <h1

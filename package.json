@@ -22,6 +22,7 @@
     "dependencies": {
         "@vuepic/vue-datepicker": "^11.0.2",
         "dayjs": "^1.11.13",
-        "lodash.debounce": "^4.0.8"
+        "lodash.debounce": "^4.0.8",
+        "lucide-vue-next": "^0.488.0"
     }
 }
