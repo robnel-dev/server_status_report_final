@@ -33,6 +33,7 @@ class DiskController extends Controller
 
         // Fetch filtered data
         $disks = Storage::active()
+            //->excludeIPs(['192.168.1.110', '192.168.44.139']) //For Confirmation to sir Bryan
             ->dateRange($startDate, $endDate)
             ->orderBy('dateCRT', 'asc')
             ->orderBy('svrIP')

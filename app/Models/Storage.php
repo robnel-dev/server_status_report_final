@@ -87,4 +87,13 @@ class Storage extends Model
     return $query->whereRaw("CAST(dateCRT AS CHAR) BETWEEN ? AND ?", [(string) $start, (string) $end]);
 }
 
+/**
+ * Scope to exclude specific server IPs
+ */
+public function scopeExcludeIPs($query, array $ips)
+{
+    return $query->whereNotIn('svrIP', $ips);
+}
+
+
 }
