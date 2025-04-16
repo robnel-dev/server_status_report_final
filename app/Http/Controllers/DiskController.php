@@ -42,13 +42,17 @@ class DiskController extends Controller
                 return empty($search) || collect([
                     $disk->svrIP,
                     $disk->drvLetter,
-                    $disk->drvSizeTotal,
-                    $disk->drvSizeFree,
+                    (string) $disk->drvSizeTotal,
+                    (string) $disk->drvSizeFree,
                     $disk->dateCRT,
                     $disk->status
-                ])->map(fn($value) => strtolower($value))
-                    ->contains(fn($val) => str_contains($val, $search));
+                ])->filter()
+                  ->map(fn($value) => strtolower((string) $value))
+                  ->contains(fn($val) => str_contains($val, $search));
             });
+            
+            
+            
 
         // Transform Data for Frontend
         return Inertia::render('Disks', [

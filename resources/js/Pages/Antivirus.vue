@@ -16,6 +16,15 @@
             placeholder="Select date range" class="w-full max-w-xs" />
         </div>
 
+        <!-- Record Count -->
+        <div class="mb-4 flex justify-left">
+          <div
+            class="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-indigo-800 text-sm px-4 py-2 rounded-lg shadow-sm italic">
+            Showing <span class="font-semibold">{{ antiviruses.length }}</span> record<span
+              v-if="antiviruses.length !== 1">s</span>
+          </div>
+        </div>
+
         <!-- Table -->
         <div class="overflow-x-auto shadow-lg rounded-lg">
           <table class="min-w-full bg-white rounded-lg">

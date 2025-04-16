@@ -21,7 +21,13 @@
             placeholder="Select date range" class="w-full max-w-xs ml-auto" />
         </div>
 
-
+        <!-- Record Count -->
+        <div class="mb-4 flex justify-left">
+          <div
+            class="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-indigo-800 text-sm px-4 py-2 rounded-lg shadow-sm italic">
+            Showing <span class="font-semibold">{{ disks.length }}</span> record<span v-if="disks.length !== 1">s</span>
+          </div>
+        </div>
 
         <!-- Table -->
         <div class="overflow-x-auto shadow-lg rounded-lg">
@@ -76,7 +82,9 @@
                           d="M9.75 9.75h.008v.008H9.75V9.75zm4.5 0h.008v.008H14.25V9.75zM12 15.75a3.75 3.75 0 0 0 3.748-3.584 5.25 5.25 0 1 0-7.496 0A3.75 3.75 0 0 0 12 15.75z" />
                       </svg>
                     </div>
-                    <div class="flex flex-col items-center justify-center text-gray-600 space-y-2 transition-all duration-300 ease-in-out transform animate-fade-in">No Disk Records Found</div>
+                    <div
+                      class="flex flex-col items-center justify-center text-gray-600 space-y-2 transition-all duration-300 ease-in-out transform animate-fade-in">
+                      No Disk Records Found</div>
                     <div class="text-sm text-gray-500">Try adjusting your <span class="font-medium">search</span> or
                       date
                       <span class="font-medium">filters</span>.
