@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    // Default Breeze Dashboard
+    
     Route::get('/dashboard', function () {
         return Inertia::render('Dashboard');
     })->name('dashboard');
