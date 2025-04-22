@@ -76,12 +76,13 @@
           </table>
         </div>
 
-        <div class="flex justify-end mt-3 mb-12 px-2">
+        <!-- For future testing -->
+        <!-- <div class="flex justify-end mt-3 mb-12 px-2">
           <button @click="exportToCSV"
             class="bg-gradient-to-r from-blue-100 via-indigo-100 to-purple-100 text-indigo-800 font-medium px-6 py-3 rounded-xl shadow-sm hover:shadow-md hover:brightness-105 transition duration-300 ease-in-out border border-indigo-200">
             📁 Export Logs as CSV
           </button>
-        </div>
+        </div> -->
 
 
 
@@ -109,7 +110,6 @@ const updateResults = debounce(() => {
     return date.toISOString().slice(0, 10).replace(/-/g, '');
   });
 
-  alert(`Selected Dates: ${start} to ${end}`);
   router.get('/logs', {
     start_date: start,
     end_date: end
@@ -144,53 +144,53 @@ onMounted(() => {
   }
 });
 
+//For Testing
+// const exportToCSV = () => {
+//   if (!props.logs || props.logs.length === 0) {
+//     alert("No logs to export!");
+//     return;
+//   }
 
-const exportToCSV = () => {
-  if (!props.logs || props.logs.length === 0) {
-    alert("No logs to export!");
-    return;
-  }
+//   // Create CSV header
+//   const headers = [
+//     "Date",
+//     "Server IP",
+//     "Filename",
+//     "File Size",
+//     "Time Created",
+//     "Remarks",
+//     "Date Modified",
+//     "Backup"
+//   ];
 
-  // Create CSV header
-  const headers = [
-    "Date",
-    "Server IP",
-    "Filename",
-    "File Size",
-    "Time Created",
-    "Remarks",
-    "Date Modified",
-    "Backup"
-  ];
+//   // Create rows from data
+//   const rows = props.logs.map(log => [
+//     log.datecrt,
+//     log.server_ip,
+//     log.filename,
+//     log.filesize,
+//     log.timecrt,
+//     log.remarks,
+//     log.date_modified,
+//     log.backup
+//   ]);
 
-  // Create rows from data
-  const rows = props.logs.map(log => [
-    log.datecrt,
-    log.server_ip,
-    log.filename,
-    log.filesize,
-    log.timecrt,
-    log.remarks,
-    log.date_modified,
-    log.backup
-  ]);
+//   // Combine into CSV format
+//   const csvContent =
+//     [headers, ...rows]
+//       .map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(","))
+//       .join("\n");
 
-  // Combine into CSV format
-  const csvContent =
-    [headers, ...rows]
-      .map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(","))
-      .join("\n");
-
-  // Download as file
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.setAttribute("href", url);
-  link.setAttribute("download", "server_logs.csv");
-  link.style.visibility = "hidden";
-  document.body.appendChild(link);
-  link.click(); 
-  document.body.removeChild(link);
-};
+//   // Download as file
+//   const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+//   const url = URL.createObjectURL(blob);
+//   const link = document.createElement("a");
+//   link.setAttribute("href", url);
+//   link.setAttribute("download", "server_logs.csv");
+//   link.style.visibility = "hidden";
+//   document.body.appendChild(link);
+//   link.click(); 
+//   document.body.removeChild(link);
+// };
 
 </script>
